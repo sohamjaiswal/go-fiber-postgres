@@ -10,7 +10,7 @@ func RegisterRoutes(app *fiber.App, db *gorm.DB) {
 	bookHandler := NewHandler(repo)
 	api := app.Group("/api")
 	api.Post("/create-book", bookHandler.CreateBook)
-	api.Delete("/delete-book/:id", bookHandler.DeleteBook)
-	api.Get("/get-book/:id", bookHandler.GetBookByID)
+	api.Delete("/book/:id", bookHandler.DeleteBook)
+	api.Get("/book/:id", bookHandler.GetBookByID)
 	api.Get("/books", bookHandler.GetBooks)
 }
