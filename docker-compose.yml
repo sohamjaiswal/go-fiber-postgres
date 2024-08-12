@@ -5,10 +5,15 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: ${DB_PASS-password}
+      POSTGRES_USER: ${DB_USER-postgres}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER-postgres}"]
+      interval: 1s
+      timeout: 5s
     volumes:
       - ./db:/var/lib/postgresql/data
     ports:
-      - ${DB_PORT-5432}:${DB_PORT-5432}
+      - ${DB_BIND_PORT-5432}:5432
   server:
     container_name: server
     build:
@@ -27,13 +32,13 @@ services:
     depends_on:
       - gfp-db
     environment:
-      - HOST=${HOST-localhost}
+      - HOST=${HOST}
       - PORT=${PORT-3000}
       - MODE=${MODE-dev}
       # - DATABASE_URL=postgresql://postgres:${DB_PASS-password}@db:${DB_PORT-5432}/postgres
-      - DB_HOST=gfp-db
+      - DB_HOST=${DB_HOST-gfp-db}
       - DB_PORT=${DB_PORT-5432}
       - DB_PASS=${DB_PASS-password}
-      - DB_USER=postgres
-      - DB_NAME=postgres
+      - DB_USER=${DB_USER-postgres}
+      - DB_NAME=${DB_USER-postgres}
       - DB_SSLMODE=${DB_SSLMODE-disable}

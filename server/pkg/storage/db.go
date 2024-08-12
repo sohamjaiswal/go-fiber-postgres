@@ -2,6 +2,7 @@ package storage
 
 import (
 	"fmt"
+	"log"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -26,6 +27,7 @@ func NewConnection(config *Config) (*gorm.DB, error) {
 		config.DBName,
 		config.SSLMode,
 	)
+	log.Print(dsn)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{}); 
 	if err != nil {
 		return db, err
