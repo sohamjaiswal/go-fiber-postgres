@@ -16,7 +16,7 @@ func NewHandler(repo *Repository) *Handler {
 
 func (h *Handler) CreateBook(c *fiber.Ctx) error {
 	book := CreateBookDTO{}
-	if err := c.BodyParser(book); err != nil {
+	if err := c.BodyParser(&book); err != nil {
 		return c.Status(http.StatusUnprocessableEntity).JSON(&fiber.Map{
 			"message": "request failed",
 		})

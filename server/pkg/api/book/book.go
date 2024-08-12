@@ -19,7 +19,12 @@ func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{DB: db}
 }
 
-func (r *Repository) CreateBook(book *CreateBookDTO) error {
+func (r *Repository) CreateBook(createBookDto *CreateBookDTO) error {
+	book := &models.Book{
+		Author: &createBookDto.Author,
+		Title: &createBookDto.Title,
+		Publisher: &createBookDto.Publisher,
+	}
 	return r.DB.Create(&book).Error
 }
 
